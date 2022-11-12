@@ -2,9 +2,7 @@ const e = require("express");
 const bcrypt = require("bcrypt");
 const profileList = [];
 const jwt = require("jsonwebtoken");
-exports.profile = () => {
-  return profileList;
-}
+
 exports.checkingEmail = (email) => {
   var result = false;
   profileList.forEach(element => {
@@ -16,6 +14,7 @@ exports.checkingEmail = (email) => {
 }
 
 exports.register = async (username, email, password) => {
+  console.log(password);
   const passwordHash = await bcrypt.hash(password, 10);
   profileList.push({ username: username, email: email, password: passwordHash });
   return { username: username, email: email, password: passwordHash };

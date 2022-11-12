@@ -1,18 +1,19 @@
 const usersService = require('./usersService');
 
-module.exports.profile = async (req, res) => {
-  const user = await usersService.register("abc", "a@b", "123456");
-  res.json(usersService.profile());
+exports.profile = async (req, res) => {
+  console.log("check")
+  res.json({user : req.user});
 }
 
-module.exports.register = async (req, res) => {
+exports.register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
     if (await usersService.checkingEmail(email)) {
       res.json({ message: -1 });
     }
     else {
-      if (!await usersService.findByUsername(username)) {
+      console.log(username);
+      if (await usersService.findByUsername(username)) {
         res.json({ message: -2 });
       }
       else {
@@ -26,7 +27,7 @@ module.exports.register = async (req, res) => {
   }
 };
 
-module.exports.login = async (req, res) => {
+exports.login = async (req, res) => {
   try {
     const { username, password } = req.user;
     const user = await usersService.findByUsername(username);
@@ -42,3 +43,4 @@ module.exports.login = async (req, res) => {
     res.status(400).json({ errorMessage: e.message ?? 'Unknown error' });
   }
 };
+
